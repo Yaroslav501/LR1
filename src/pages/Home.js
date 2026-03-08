@@ -35,23 +35,20 @@ const Home = () => {
         } catch (error) {
             console.error('Ошибка загрузки данных:', error);
             setLoading(false);
-            alert('Не удалось загрузить данные. Проверьте API ключ и Bin ID.');
+            alert('Не удалось загрузить данные. Проверьте API ключ.');
         }
     };
 
     const deleteIncident = async (id) => {
         if (window.confirm('Вы уверены, что хотите удалить эту запись?')) {
             try {
-                // Получаем текущие данные
                 const current = await axios.get(
                     `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,
                     { headers: { 'X-Master-Key': API_KEY } }
                 );
                 
-                // Удаляем запись из массива
                 const updated = current.data.record.incidents.filter(item => item.id !== id);
                 
-                // Отправляем обновлённый массив
                 await axios.put(
                     `https://api.jsonbin.io/v3/b/${BIN_ID}`,
                     { incidents: updated },
@@ -107,7 +104,6 @@ const Home = () => {
 
     return (
         <div>
-            {/* Карточки статистики */}
             <div className="stats-container">
                 <div className="stat-card">
                     <h3>{stats.total}</h3>
