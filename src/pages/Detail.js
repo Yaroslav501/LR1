@@ -18,7 +18,7 @@ const Detail = () => {
     useEffect(() => {
         const loadIncident = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/incidents/${id}`);
+                const response = await axios.get(`https://my-json-server.typicode.com/Yaroslav501/JSON-serv/incidents/${id}`);
                 setFormData(response.data);
                 setLoading(false);
             } catch (error) {
@@ -41,7 +41,7 @@ const Detail = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:5000/incidents/${id}`, formData);
+            await axios.put(`https://my-json-server.typicode.com/Yaroslav501/JSON-serv/incidents/${id}`, formData);
             alert('Запись успешно обновлена!');
             navigate('/');
         } catch (error) {
