@@ -24,7 +24,7 @@ const Form = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/incidents', formData);
+            await axios.post('http://https://my-json-server.typicode.com/Yaroslav501/JSON-serv/incidents', formData);
             alert('Запись успешно добавлена!');
             navigate('/');
         } catch (error) {
