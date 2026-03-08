@@ -6,6 +6,9 @@ const Detail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     
+    const BIN_ID = '69ad45e2ae596e708f6c5416';
+    const API_KEY = '$2a$10$RXqthTfr5oH0p4Knha6oe.A64Sl1yetsQy.rzh8qGjAlFV/w1pihu';
+    
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -18,8 +21,17 @@ const Detail = () => {
     useEffect(() => {
         const loadIncident = async () => {
             try {
-                const response = await axios.get(`https://my-json-server.typicode.com/Yaroslav501/JSON-serv/incidents/${id}`);
-                setFormData(response.data);
+                const response = await axios.get(
+                    `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,
+                    { headers: { 'X-Master-Key': API_KEY } }
+                );
+                
+                const incident = response.data.record.incidents.find(i => i.id == id);
+                
+                if (incident) {
+                    setFormData(incident);
+                }
+                
                 setLoading(false);
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
@@ -41,7 +53,24 @@ const Detail = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`https://my-json-server.typicode.com/Yaroslav501/JSON-serv/incidents/${id}`, formData);
+            // Получаем текущие данные
+            const current = await axios.get(
+                `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,
+                { headers: { 'X-Master-Key': API_KEY } }
+            );
+            
+            // Обновляем запись в массиве
+            const updated = current.data.record.incidents.map(i => 
+                i.id == id ? { ...formData, id } : i
+            );
+            
+            // Отправляем обновлённый массив
+            await axios.put(
+                `https://api.jsonbin.io/v3/b/${BIN_ID}`,
+                { incidents: updated },
+                { headers: { 'X-Master-Key': API_KEY } }
+            );
+            
             alert('Запись успешно обновлена!');
             navigate('/');
         } catch (error) {
