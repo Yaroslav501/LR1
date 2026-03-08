@@ -13,7 +13,7 @@ const Home = () => {
 
     const loadIncidents = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/incidents');
+            const response = await axios.get('https://my-json-server.typicode.com/Yaroslav501/JSON-serv/incidents');
             const data = response.data;
             
             setIncidents(data);
@@ -36,7 +36,7 @@ const Home = () => {
     const deleteIncident = async (id) => {
         if (window.confirm('Вы уверены, что хотите удалить эту запись?')) {
             try {
-                await axios.delete(`http://localhost:5000/incidents/${id}`);
+                await axios.delete(`https://my-json-server.typicode.com/Yaroslav501/JSON-serv/incidents/${id}`);
                 setIncidents(incidents.filter(item => item.id !== id));
                 loadIncidents();
             } catch (error) {
