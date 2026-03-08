@@ -53,18 +53,15 @@ const Detail = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Получаем текущие данные
             const current = await axios.get(
                 `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,
                 { headers: { 'X-Master-Key': API_KEY } }
             );
             
-            // Обновляем запись в массиве
             const updated = current.data.record.incidents.map(i => 
                 i.id == id ? { ...formData, id } : i
             );
             
-            // Отправляем обновлённый массив
             await axios.put(
                 `https://api.jsonbin.io/v3/b/${BIN_ID}`,
                 { incidents: updated },
