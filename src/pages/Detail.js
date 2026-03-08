@@ -26,7 +26,7 @@ const Detail = () => {
                     { headers: { 'X-Master-Key': API_KEY } }
                 );
                 
-                const incident = response.data.record.incidents.find(i => i.id == id);
+                const incident = response.data.record.incidents.find(i => i.id === id);
                 
                 if (incident) {
                     setFormData(incident);
@@ -59,7 +59,7 @@ const Detail = () => {
             );
             
             const updated = current.data.record.incidents.map(i => 
-                i.id == id ? { ...formData, id } : i
+                i.id === id ? { ...formData, id } : i
             );
             
             await axios.put(
