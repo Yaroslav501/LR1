@@ -27,13 +27,11 @@ const Form = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Получаем текущие данные
             const current = await axios.get(
                 `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,
                 { headers: { 'X-Master-Key': API_KEY } }
             );
             
-            // Добавляем новую запись с уникальным ID
             const newIncident = { 
                 ...formData, 
                 id: Date.now().toString() 
@@ -41,7 +39,6 @@ const Form = () => {
             
             const updated = [...current.data.record.incidents, newIncident];
             
-            // Отправляем обновлённый массив
             await axios.put(
                 `https://api.jsonbin.io/v3/b/${BIN_ID}`,
                 { incidents: updated },
