@@ -47,7 +47,7 @@ const Home = () => {
                     { headers: { 'X-Master-Key': API_KEY } }
                 );
                 
-                const updated = current.data.record.incidents.filter(item => item.id !== id);
+                const updated = current.data.record.incidents.filter(item => item.id !=== id);
                 
                 await axios.put(
                     `https://api.jsonbin.io/v3/b/${BIN_ID}`,
