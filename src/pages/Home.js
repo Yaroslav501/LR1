@@ -3,9 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Home = () => {
-    const BIN_ID = '69ad45e2ae596e708f6c5416';
-    const API_KEY = '$2a$10$RXqthTfr5oH0p4Knha6oe.A64Sl1yetsQy.rzh8qGjAlFV/w1pihu';
-    
     const [incidents, setIncidents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [stats, setStats] = useState({ total: 0, new: 0, inWork: 0, done: 0 });
@@ -16,11 +13,8 @@ const Home = () => {
 
     const loadIncidents = async () => {
         try {
-            const response = await axios.get(
-                `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,
-                { headers: { 'X-Master-Key': API_KEY } }
-            );
-            const data = response.data.record.incidents;
+            const response = await axios.get('http://localhost:5000/incidents');
+            const data = response.data;
             
             setIncidents(data);
             
@@ -35,27 +29,15 @@ const Home = () => {
         } catch (error) {
             console.error('Ошибка загрузки данных:', error);
             setLoading(false);
-            alert('Не удалось загрузить данные. Проверьте API ключ.');
+            alert('Не удалось загрузить данные. Проверьте, запущен ли json-server.');
         }
     };
 
     const deleteIncident = async (id) => {
         if (window.confirm('Вы уверены, что хотите удалить эту запись?')) {
             try {
-                const current = await axios.get(
-                    `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,
-                    { headers: { 'X-Master-Key': API_KEY } }
-                );
-                
-                const updated = current.data.record.incidents.filter(item => item.id !=== id);
-                
-                await axios.put(
-                    `https://api.jsonbin.io/v3/b/${BIN_ID}`,
-                    { incidents: updated },
-                    { headers: { 'X-Master-Key': API_KEY } }
-                );
-                
-                setIncidents(updated);
+                await axios.delete(`http://localhost:5000/incidents/${id}`);
+                setIncidents(incidents.filter(item => item.id !== id));
                 loadIncidents();
             } catch (error) {
                 console.error('Ошибка удаления:', error);
@@ -104,6 +86,7 @@ const Home = () => {
 
     return (
         <div>
+            {/* Карточки статистики */}
             <div className="stats-container">
                 <div className="stat-card">
                     <h3>{stats.total}</h3>
