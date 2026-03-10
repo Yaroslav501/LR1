@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Home = () => {
+    const API_URL = 'https://69b00939c63dd197febb0bb0.mockapi.io/incidents';
+    
     const [incidents, setIncidents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [stats, setStats] = useState({ total: 0, new: 0, inWork: 0, done: 0 });
@@ -13,7 +15,7 @@ const Home = () => {
 
     const loadIncidents = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/incidents');
+            const response = await axios.get(API_URL);
             const data = response.data;
             
             setIncidents(data);
@@ -29,14 +31,14 @@ const Home = () => {
         } catch (error) {
             console.error('Ошибка загрузки данных:', error);
             setLoading(false);
-            alert('Не удалось загрузить данные. Проверьте, запущен ли json-server.');
+            alert('Не удалось загрузить данные. Проверьте интернет-соединение.');
         }
     };
 
     const deleteIncident = async (id) => {
         if (window.confirm('Вы уверены, что хотите удалить эту запись?')) {
             try {
-                await axios.delete(`http://localhost:5000/incidents/${id}`);
+                await axios.delete(`${API_URL}/${id}`);
                 setIncidents(incidents.filter(item => item.id !== id));
                 loadIncidents();
             } catch (error) {
@@ -86,7 +88,6 @@ const Home = () => {
 
     return (
         <div>
-            {/* Карточки статистики */}
             <div className="stats-container">
                 <div className="stat-card">
                     <h3>{stats.total}</h3>
