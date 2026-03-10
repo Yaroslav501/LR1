@@ -6,6 +6,8 @@ const Detail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     
+    const API_URL = 'https://69b00939c63dd197febb0bb0.mockapi.io/incidents';
+    
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -18,7 +20,7 @@ const Detail = () => {
     useEffect(() => {
         const loadIncident = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/incidents/${id}`);
+                const response = await axios.get(`${API_URL}/${id}`);
                 setFormData(response.data);
                 setLoading(false);
             } catch (error) {
@@ -41,7 +43,7 @@ const Detail = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:5000/incidents/${id}`, formData);
+            await axios.put(`${API_URL}/${id}`, formData);
             alert('Запись успешно обновлена!');
             navigate('/');
         } catch (error) {
