@@ -5,6 +5,8 @@ import axios from 'axios';
 const Form = () => {
     const navigate = useNavigate();
     
+    const API_URL = 'https://69b00939c63dd197febb0bb0.mockapi.io/incidents';
+    
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -24,7 +26,7 @@ const Form = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/incidents', formData);
+            await axios.post(API_URL, formData);
             alert('Запись успешно добавлена!');
             navigate('/');
         } catch (error) {
