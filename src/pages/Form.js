@@ -32,11 +32,7 @@ const Form = () => {
                 { headers: { 'X-Master-Key': API_KEY } }
             );
             
-            const newIncident = { 
-                ...formData, 
-                id: Date.now().toString() 
-            };
-            
+            const newIncident = { ...formData, id: Date.now().toString() };
             const updated = [...current.data.record.incidents, newIncident];
             
             await axios.put(
